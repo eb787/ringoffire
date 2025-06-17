@@ -12,6 +12,8 @@ export class GameComponent implements OnInit{
   pickCardAnimation = false;
   currentCard: string = '';
   game = new Game();
+  backgroundImage = 'url("assets/img/board.jpg")';
+
   
   constructor(public dialog: MatDialog) {}
 
