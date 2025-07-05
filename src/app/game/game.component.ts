@@ -11,8 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit{
-  pickCardAnimation = false;
-  currentCard: string = '';
+ 
   game = new Game();
   backgroundImage = 'url("assets/img/board.jpg")';
   gameId: string = '';
@@ -36,6 +35,8 @@ export class GameComponent implements OnInit{
     this.game.playedCards = game.playedCards ?? [];
     this.game.players = game.players ?? [];
     this.game.stack = game.stack ?? [];
+    this.game.pickCardAnimation = game.pickCardAnimation ?? false;
+    this.game.currentCard = game.currentCard ?? '';
   });
 
     }); 
@@ -46,18 +47,19 @@ export class GameComponent implements OnInit{
   }
 
 takeCard() {
-  if(!this.pickCardAnimation){
-  this.currentCard = this.game.stack.pop() || '';
-  this.pickCardAnimation = true;
-  console.log('New card:' + this.currentCard);
+  if(!this.game.pickCardAnimation){
+  this.game.currentCard = this.game.stack.pop() || '';
+  this.game.pickCardAnimation = true;
+  console.log('New card:' + this.game.currentCard);
    console.log('Game is', this.game);
-   this.saveGame();
-
    this.game.currentPlayer++;
    this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+
+    this.saveGame();
+    
   setTimeout(()=>{
-    this.game.playedCards.push(this.currentCard);
-  this.pickCardAnimation = false;
+    this.game.playedCards.push(this.game.currentCard);
+  this.game.pickCardAnimation = false;
   this.saveGame();
   }, 1000);
 }
